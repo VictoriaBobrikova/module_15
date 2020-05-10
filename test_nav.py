@@ -78,6 +78,8 @@ class NavigationTest(BaseCase):
         self.get(self.base_url+'/dolce-gabbana/s/1495')
         # получаем английский текст
         eng_text = self.get_text('//article[1]/a/div[2]/p[2]')
+        # получаем стоимость товара на английском
+        eng_price = self.get_text('//article[1]//span[@class="lowest"]')
         # переход в раздел языковых параметров и их смена
         self.click('//*[@id="top-navigation-links"]/ul/li[1]/a')
         self.click('//a[@title="Russian"]')
@@ -87,7 +89,11 @@ class NavigationTest(BaseCase):
         self.get('https://ru.babyshop.com/dolce-gabbana/s/1495')
         # получаем русский текст
         ru_text = self.get_text('//article[1]/a/div[2]/p[2]')
+        # получаем стоимость товара на русском
+        ru_price = self.get_text('//article[1]//span[@class="lowest"]')
         # английский текст не должен совпадать с русским
         self.assert_not_equal(eng_text, ru_text)
+        # сравниваем стоимости
+        self.assert_not_equal(eng_price, ru_price)
 
 
